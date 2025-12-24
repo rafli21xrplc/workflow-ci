@@ -4,6 +4,7 @@ name: CI/CD Pipeline - Heart Disease
 on:
   push:
     branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
@@ -40,7 +41,7 @@ jobs:
         DAGSHUB_USER_TOKEN: ${{ secrets.DAGSHUB_TOKEN }}
       run: |
         # Pastikan dataset sudah ada di repo atau di-download di sini
-        python modelling.py --input processed_data
+        python MLProject/modelling.py --input processed_data
 
     # 6. Build Docker Image & Push ke Docker Hub (Kriteria Advance)
     - name: Build and Push Docker Image

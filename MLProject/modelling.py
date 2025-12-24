@@ -94,7 +94,7 @@ def train_and_log(input_dir):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('--input', type=str, default='MLProject/heart_disease_preprocessing', help='Input directory')
+    parser.add_argument('--input', type=str, default='heart_disease_preprocessing', help='Input directory')
     args = parser.parse_args()
     
     train_and_log(args.input)

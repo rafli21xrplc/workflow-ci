@@ -5,5 +5,5 @@ conda_env: conda.yaml
 entry_points:
   main:
     parameters:
-      input_data: {type: string, default: "processed_data"}
+      input_data: {type: string, default: "heart_disease_preprocessing"}
     command: "python modelling.py --input {input_data}"

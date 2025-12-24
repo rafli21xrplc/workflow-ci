@@ -1,0 +1,43 @@
+artifact_path: file:D:/application-project-dev/Workflow-CI/MLProject/mlruns/0/models/m-1481cf0184b14262b9e6da976505e8c8/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.13.0
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.8.0
+is_signature_from_type_hint: false
+mlflow_version: 3.8.0
+model_id: m-1481cf0184b14262b9e6da976505e8c8
+model_size_bytes: 20543251
+model_uuid: m-1481cf0184b14262b9e6da976505e8c8
+prompts: null
+run_id: 5dc4d73e95e44422bfd0cff7e98dda85
+signature:
+  inputs: '[{"type": "double", "name": "Age", "required": true}, {"type": "double",
+    "name": "Gender", "required": true}, {"type": "double", "name": "Blood Pressure",
+    "required": true}, {"type": "double", "name": "Cholesterol Level", "required":
+    true}, {"type": "double", "name": "Exercise Habits", "required": true}, {"type":
+    "double", "name": "Smoking", "required": true}, {"type": "double", "name": "Family
+    Heart Disease", "required": true}, {"type": "double", "name": "Diabetes", "required":
+    true}, {"type": "double", "name": "BMI", "required": true}, {"type": "double",
+    "name": "High Blood Pressure", "required": true}, {"type": "double", "name": "Low
+    HDL Cholesterol", "required": true}, {"type": "double", "name": "High LDL Cholesterol",
+    "required": true}, {"type": "double", "name": "Alcohol Consumption", "required":
+    true}, {"type": "double", "name": "Stress Level", "required": true}, {"type":
+    "double", "name": "Sleep Hours", "required": true}, {"type": "double", "name":
+    "Sugar Consumption", "required": true}, {"type": "double", "name": "Triglyceride
+    Level", "required": true}, {"type": "double", "name": "Fasting Blood Sugar", "required":
+    true}, {"type": "double", "name": "CRP Level", "required": true}, {"type": "double",
+    "name": "Homocysteine Level", "required": true}]'
+  outputs: '[{"type": "tensor", "tensor-spec": {"dtype": "int64", "shape": [-1]}}]'
+  params: null
+type_hint_from_example: false
+utc_time_created: '2025-12-24 14:39:55.369797'

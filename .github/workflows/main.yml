@@ -41,7 +41,7 @@ jobs:
         DAGSHUB_USER_TOKEN: ${{ secrets.DAGSHUB_TOKEN }}
       run: |
         # Pastikan dataset sudah ada di repo atau di-download di sini
-        python MLProject/modelling.py --input MLProject/heart_disease_preprocessing
+        mlflow run MLProject --no-conda --env-manager=local -P input_data=MLProject/heart_disease_preprocessing
 
     # 6. Build Docker Image & Push ke Docker Hub (Kriteria Advance)
     - name: Build and Push Docker Image

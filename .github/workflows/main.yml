@@ -1,0 +1,66 @@
+name: CI/CD Pipeline - Heart Disease
+
+# Trigger: Jalan setiap ada push ke branch main
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    # 1. Ambil kode dari repo
+    - uses: actions/checkout@v3
+
+    # 2. Siapkan Python
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    # 3. Login ke Docker Hub (Wajib untuk Advance)
+    - name: Login to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    # 4. Install MLflow dan dependensi lain
+    - name: Install dependencies
+      run: |
+        pip install mlflow==2.19.0 pandas numpy scikit-learn matplotlib seaborn dagshub python-dotenv
+
+    # 5. Training Model (Menghasilkan last_run_id.txt)
+    - name: Train Model
+      env:
+        MLFLOW_TRACKING_URI: ${{ secrets.MLFLOW_TRACKING_URI }}
+        MLFLOW_TRACKING_USERNAME: ${{ secrets.MLFLOW_TRACKING_USERNAME }}
+        MLFLOW_TRACKING_PASSWORD: ${{ secrets.MLFLOW_TRACKING_PASSWORD }}
+        DAGSHUB_USER_TOKEN: ${{ secrets.DAGSHUB_TOKEN }}
+      run: |
+        # Pastikan dataset sudah ada di repo atau di-download di sini
+        python modelling.py --input processed_data
+
+    # 6. Build Docker Image & Push ke Docker Hub (Kriteria Advance)
+    - name: Build and Push Docker Image
+      env:
+        MLFLOW_TRACKING_URI: ${{ secrets.MLFLOW_TRACKING_URI }}
+        MLFLOW_TRACKING_USERNAME: ${{ secrets.MLFLOW_TRACKING_USERNAME }}
+        MLFLOW_TRACKING_PASSWORD: ${{ secrets.MLFLOW_TRACKING_PASSWORD }}
+      run: |
+        # Membaca Run ID dari file yang dibuat modelling.py
+        RUN_ID=$(cat last_run_id.txt)
+        echo "Building Docker Image for Run ID: $RUN_ID"
+        
+        # Nama Image (ganti 'username-docker' dengan username asli Anda nanti via secrets)
+        IMAGE_TAG="${{ secrets.DOCKER_USERNAME }}/heart-disease-prediction:latest"
+        
+        # Perintah SAKTI: mlflow models build-docker
+        mlflow models build-docker \
+          -m "runs:/$RUN_ID/model" \
+          -n "$IMAGE_TAG" \
+          --enable-mlserver
+
+        # Push image ke Docker Hub
+        docker push "$IMAGE_TAG"
